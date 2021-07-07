@@ -1,7 +1,7 @@
 '''
 Date: 2021-07-06 00:45:47
 LastEditors: Jiang Hankun
-LastEditTime: 2021-07-06 00:56:55
+LastEditTime: 2021-07-07 15:34:50
 '''
 
 """
@@ -10,8 +10,10 @@ LastEditTime: 2021-07-06 00:56:55
 
 import smbus
 import time
+import threading
+from .global_var import globalvar as gl
 
-class BH1750FVI(object):
+class BH1750FVI(threading.Thread):
     """环境光照度传感器BH1750FVI"""
 
     def __init__(self) -> None:
@@ -38,20 +40,32 @@ class BH1750FVI(object):
         self.__CMD_SEN200L=0x73  #200%
 
         # 初始化
-        self.bus=smbus.SMBus(1)
+        self.bus=smbus.SMBus(0)
         self.bus.write_byte(self.__DEV_ADDR,self.__CMD_PWR_ON)
         self.bus.write_byte(self.__DEV_ADDR,self.__CMD_RESET)
         self.bus.write_byte(self.__DEV_ADDR,self.__CMD_SEN100H)
         self.bus.write_byte(self.__DEV_ADDR,self.__CMD_SEN100L)
         self.bus.write_byte(self.__DEV_ADDR,self.__CMD_PWR_OFF)
 
-    
+
     def read_data(self) -> int:
         self.bus.write_byte(self.__DEV_ADDR,self.__CMD_PWR_ON)
         self.bus.write_byte(self.__DEV_ADDR,self.__CMD_THRES2)
         time.sleep(0.2)
-        res=self.bus.read_word_data(self.__DEV_ADDR,0)
+        res = self.bus.read_word_data(self.__DEV_ADDR,0)
         # read_word_data
         res=((res>>8)&0xff)|(res<<8)&0xff00
         res=round(res/(2*1.2),2)
         return res
+
+    def run(self) -> None:
+        while True:
+            gl.set_value('illuminance', self.read_data())
+            print(gl.get_value('illuminance'))
+            time.sleep(3.1)
+
+
+
+if __name__ == "__main__":
+    sensor_BH1750FVI = BH1750FVI()
+    sensor_BH1750FVI.start()
