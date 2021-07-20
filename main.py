@@ -1,11 +1,10 @@
 '''
 Date: 2021-07-07 12:19:16
 LastEditors: Jiang Hankun
-LastEditTime: 2021-07-20 09:59:55
+LastEditTime: 2021-07-20 10:00:37
 '''
 
 # 导入并初始化全集变量库
-from serial.serialutil import Timeout
 from lib.Fan import FAN
 from lib.global_var import globalvar as gl
 gl._init()
