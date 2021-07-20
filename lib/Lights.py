@@ -1,18 +1,40 @@
+'''
+Date: 2021-07-09 15:39:46
+LastEditors: Jiang Hankun
+LastEditTime: 2021-07-09 16:43:00
+'''
 from RPi import GPIO
 
+
 class LEDs(object):
-	def __init__(self, pin_LED_1=17, pin_LED_2=27, pin_LED_3=22) -> None:
-		super().__init__()
-		self.pin_LED_1 = pin_LED_1
-		self.pin_LED_2 = pin_LED_2
-		self.pin_LED_3 = pin_LED_3
 
-		GPIO.setwarnings(False)
-		GPIO.setmode(GPIO.BCM)
-		GPIO.setup(self.pin_LED_1,GPIO.OUT)
-		GPIO.setup(self.pin_LED_2, GPIO.OUT)
-		GPIO.setup(self.pin_LED_3, GPIO.OUT)
+    def __init__(self, pin_LED=22) -> None:
+        super().__init__()
+        self.pin_LED = pin_LED
 
-		GPIO.output(self.pin_LED_1,GPIO.HIGH)
-		GPIO.output(self.pin_LED_2, GPIO.HIGH)
-		GPIO.output(self.pin_LED_3, GPIO.HIGH)
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(self.pin_LED, GPIO.OUT)
+
+        # GPIO.output(self.pin_LED, GPIO.HIGH)
+        self.off()
+
+    def off(self):
+        GPIO.output(self.pin_LED, GPIO.LOW)
+
+    def on(self):
+        GPIO.output(self.pin_LED, GPIO.HIGH)
+
+    def __del__(self):
+        self.off()
+
+
+if __name__ == "__main__":
+    import time
+    leds = LEDs()
+    while True:
+        leds.off()
+        time.sleep(1)
+        leds.on()
+        time.sleep(1)
+

@@ -1,7 +1,7 @@
 '''
 Date: 2021-07-06 00:45:47
 LastEditors: Jiang Hankun
-LastEditTime: 2021-07-07 15:34:50
+LastEditTime: 2021-07-09 15:59:48
 '''
 
 """
@@ -61,7 +61,7 @@ class BH1750FVI(threading.Thread):
     def run(self) -> None:
         while True:
             gl.set_value('illuminance', self.read_data())
-            print(gl.get_value('illuminance'))
+            # print(gl.get_value('illuminance'))
             time.sleep(3.1)
 
 

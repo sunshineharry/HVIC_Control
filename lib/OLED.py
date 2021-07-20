@@ -1,7 +1,7 @@
 '''
 Date: 2021-07-07 12:19:16
 LastEditors: Jiang Hankun
-LastEditTime: 2021-07-07 18:05:18
+LastEditTime: 2021-07-09 16:46:26
 '''
 # -*- coding:utf-8 -*-
 
@@ -49,14 +49,16 @@ class OLED(threading.Thread):
                 draw.text((self.x+75, self.top), today_time, fill=255)
 
                 # device.clear()
-                draw.text((self.x, self.top + 21), "illumin: " +
+                draw.text((self.x, self.top + 13), "illumin: " +
                         f"{gl.get_value('illuminance'):.2f}" + " Lx", fill=255)
-                draw.text((self.x, self.top+32), "humid:   " +
+                draw.text((self.x, self.top+23), "humid:   " +
                         f"{gl.get_value('humidity'):.2f}" + " %", fill=255)
-                draw.text((self.x, self.top+43), "tempera: " +
+                draw.text((self.x, self.top+33), "tempera: " +
                         f"{gl.get_value('temperature'):.2f}" + " °C", fill=255)
-                draw.text((self.x, self.top+54), "prea_1: " +
+                draw.text((self.x, self.top+43), "prea_in: " +
                         f"{int(gl.get_value('preasure_1')):.2f}" + " Pa", fill=255)
+                draw.text((self.x, self.top+53), "prea_out:" +
+                        f"{int(gl.get_value('preasure_2')):.2f}" + " Pa", fill=255)                        
                 # print('pressure_1 = ',gl.get_value('pressure_1'))
                 # print('temperature = ',gl.get_value('temperature'))
                 # draw.text((self.x, self.top+65), "prea_2: " +
